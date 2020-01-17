@@ -51,7 +51,7 @@ public class Main {
             }
         }
 
-        System.out.println("Solving maze...");
+        System.out.print("Solving maze");
         int[][] mazeSolved;
         long startTime = System.nanoTime();
         switch(args[1]){
@@ -59,11 +59,11 @@ public class Main {
                mazeSolved = SolvingAlgorithms.BFS(maze, origin, destination);
                createSolvedImage(mazeSolved, args[0].substring(0, args[0].lastIndexOf('.')) + "_solved.bmp");
                break;
-            /*case "DFS":
-                mazeSolved = DFS(maze, origin, destination);
+            case "DFS":
+                mazeSolved = SolvingAlgorithms.DFS(maze, origin, destination);
                 createSolvedImage(mazeSolved, args[0].substring(0, args[0].lastIndexOf('.')) + "_solved.bmp");
                 break;
-            case "Dijkstra":
+            /*case "Dijkstra":
                 mazeSolved = dijkstra(maze, origin, destination);
                 createSolvedImage(mazeSolved, args[0].substring(0, args[0].lastIndexOf('.')) + "_solved.bmp");
                 break;
