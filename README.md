@@ -1,2 +1,2 @@
 # Maze-Solver
-A maze solver capable of processing B&amp;W maze images and finding the shortest paths.
+A maze solver capable of processing B&W maze images and finding paths from one point to another through various path-finding algorithms.
