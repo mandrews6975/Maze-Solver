@@ -63,11 +63,11 @@ public class Main {
                 mazeSolved = SolvingAlgorithms.DFS(maze, origin, destination);
                 createSolvedImage(mazeSolved, args[0].substring(0, args[0].lastIndexOf('.')) + "_solved.bmp");
                 break;
-            /*case "Dijkstra":
-                mazeSolved = dijkstra(maze, origin, destination);
+            case "Dijkstra":
+                mazeSolved = SolvingAlgorithms.dijkstra(maze, origin, destination);
                 createSolvedImage(mazeSolved, args[0].substring(0, args[0].lastIndexOf('.')) + "_solved.bmp");
                 break;
-            case "Greedy":
+            /*case "Greedy":
                 mazeSolved = greedy(maze, origin, destination);
                 createSolvedImage(mazeSolved, args[0].substring(0, args[0].lastIndexOf('.')) + "_solved.bmp");
                 break;
