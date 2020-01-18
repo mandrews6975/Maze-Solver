@@ -15,41 +15,47 @@ public class SolvingAlgorithms {
         }
         System.out.println(" via BFS...");
         int[][] mazeSolved = maze.clone();
-        ArrayDeque<Pair<Integer, Integer>> q = new ArrayDeque<>();
-        HashMap<Pair<Integer, Integer>, Pair<Integer, Integer>> visited = new HashMap<>();
+        ArrayDeque<Node> q = new ArrayDeque<>();
+        HashMap<Pair<Integer, Integer>, Node> nodes = new HashMap<>();
+        for(int i = 0; i < maze.length; i++){
+            for(int j = 0; j < maze[0].length; j++){
+                Node cur = new Node(new Pair<>(i, j), Integer.MAX_VALUE, null);
+                nodes.put(cur.getCoord(), cur);
+            }
+        }
         mazeSolved[origin.getKey()][origin.getValue()] = 3;
-        q.add(origin);
-        visited.put(origin, origin);
+        q.add(new Node(new Pair<>(origin.getKey(), origin.getValue()), 0, null));
+        q.peek().visit();
         System.out.println("Starting at origin: [" + origin.getKey() + "," + origin.getValue() + "]...");
         while(!q.isEmpty()){
-            Pair<Integer, Integer> cur = q.pop();
-            Pair<Integer, Integer> top = new Pair<>(cur.getKey(), cur.getValue() - 1);
-            Pair<Integer, Integer> bottom = new Pair<>(cur.getKey(), cur.getValue() + 1);
-            Pair<Integer, Integer> left = new Pair<>(cur.getKey() - 1, cur.getValue());
-            Pair<Integer, Integer> right = new Pair<>(cur.getKey() + 1, cur.getValue());
-            ArrayList<Pair<Integer, Integer>> adj = new ArrayList<>();
-            if(top.getKey() <= maze.length && top.getValue() <= maze[0].length){
+            Node cur = q.pop();
+            Node top = nodes.get(new Pair<>(cur.getCoord().getKey(), cur.getCoord().getValue() - 1));
+            Node bottom = nodes.get(new Pair<>(cur.getCoord().getKey(), cur.getCoord().getValue() + 1));
+            Node left = nodes.get(new Pair<>(cur.getCoord().getKey() - 1, cur.getCoord().getValue()));
+            Node right = nodes.get(new Pair<>(cur.getCoord().getKey() + 1, cur.getCoord().getValue()));
+            ArrayList<Node> adj = new ArrayList<>();
+            if(top != null && top.getCoord().getKey() <= maze.length && top.getCoord().getValue() <= maze[0].length){
                 adj.add(top);
             }
-            if(bottom.getKey() < maze.length && bottom.getValue() < maze[0].length){
+            if(bottom != null && bottom.getCoord().getKey() < maze.length && bottom.getCoord().getValue() < maze[0].length){
                 adj.add(bottom);
             }
-            if(left.getKey() < maze.length && left.getValue() < maze[0].length){
+            if(left != null && left.getCoord().getKey() < maze.length && left.getCoord().getValue() < maze[0].length){
                 adj.add(left);
             }
-            if(right.getKey() < maze.length && right.getValue() < maze[0].length){
+            if(right != null && right.getCoord().getKey() < maze.length && right.getCoord().getValue() < maze[0].length){
                 adj.add(right);
             }
-            for(Pair<Integer, Integer> coord : adj){
-                if(coord.getKey() >= 0 && coord.getValue() >= 0 && maze[coord.getKey()][coord.getValue()] != 1 && !visited.containsValue(coord)){
-                    visited.put(coord, coord);
-                    if(coord.equals(destination)){
+            for(Node node : adj){
+                if(node.getCoord().getKey() >= 0 && node.getCoord().getValue() >= 0 && maze[node.getCoord().getKey()][node.getCoord().getValue()] != 1 && !node.getVisited()){
+                    node.visit();
+                    if(node.getCoord().equals(destination)){
                         System.out.print("Found destination: [" + destination.getKey() + "," + destination.getValue() + "]");
-                        mazeSolved[coord.getKey()][coord.getValue()] = 3;
+                        mazeSolved[node.getCoord().getKey()][node.getCoord().getValue()] = 3;
                         return mazeSolved;
                     }else{
-                        mazeSolved[coord.getKey()][coord.getValue()] = 2;
-                        q.add(coord);
+                        mazeSolved[node.getCoord().getKey()][node.getCoord().getValue()] = 2;
+                        q.add(node);
                     }
                 }
             }
@@ -66,40 +72,47 @@ public class SolvingAlgorithms {
         }
         System.out.println(" via DFS...");
         int[][] mazeSolved = maze.clone();
-        ArrayDeque<Pair<Integer, Integer>> stack = new ArrayDeque<>();
-        HashMap<Pair<Integer, Integer>, Pair<Integer, Integer>> visited = new HashMap<>();
+        ArrayDeque<Node> stack = new ArrayDeque<>();
+        HashMap<Pair<Integer, Integer>, Node> nodes = new HashMap<>();
+        for(int i = 0; i < maze.length; i++){
+            for(int j = 0; j < maze[0].length; j++){
+                Node cur = new Node(new Pair<>(i, j), Integer.MAX_VALUE, null);
+                nodes.put(cur.getCoord(), cur);
+            }
+        }
         mazeSolved[origin.getKey()][origin.getValue()] = 3;
-        stack.addFirst(origin);
+        stack.addFirst(new Node(new Pair<>(origin.getKey(), origin.getValue()), 0, null));
         System.out.println("Starting at origin: [" + origin.getKey() + "," + origin.getValue() + "]...");
         while(!stack.isEmpty()){
-            Pair<Integer, Integer> cur = stack.pop();
-            visited.put(cur, cur);
-            Pair<Integer, Integer> top = new Pair<>(cur.getKey(), cur.getValue() - 1);
-            Pair<Integer, Integer> bottom = new Pair<>(cur.getKey(), cur.getValue() + 1);
-            Pair<Integer, Integer> left = new Pair<>(cur.getKey() - 1, cur.getValue());
-            Pair<Integer, Integer> right = new Pair<>(cur.getKey() + 1, cur.getValue());
-            ArrayList<Pair<Integer, Integer>> adj = new ArrayList<>();
-            if(top.getKey() <= maze.length && top.getValue() <= maze[0].length){
+            Node cur = stack.pop();
+            cur.visit();
+            Node top = nodes.get(new Pair<>(cur.getCoord().getKey(), cur.getCoord().getValue() - 1));
+            Node bottom = nodes.get(new Pair<>(cur.getCoord().getKey(), cur.getCoord().getValue() + 1));
+            Node left = nodes.get(new Pair<>(cur.getCoord().getKey() - 1, cur.getCoord().getValue()));
+            Node right = nodes.get(new Pair<>(cur.getCoord().getKey() + 1, cur.getCoord().getValue()));
+            ArrayList<Node> adj = new ArrayList<>();
+            if(top != null && top.getCoord().getKey() <= maze.length && top.getCoord().getValue() <= maze[0].length){
                 adj.add(top);
             }
-            if(bottom.getKey() < maze.length && bottom.getValue() < maze[0].length){
+            if(bottom != null && bottom.getCoord().getKey() < maze.length && bottom.getCoord().getValue() < maze[0].length){
                 adj.add(bottom);
             }
-            if(left.getKey() < maze.length && left.getValue() < maze[0].length){
+            if(left != null && left.getCoord().getKey() < maze.length && left.getCoord().getValue() < maze[0].length){
                 adj.add(left);
             }
-            if(right.getKey() < maze.length && right.getValue() < maze[0].length){
+            if(right != null && right.getCoord().getKey() < maze.length && right.getCoord().getValue() < maze[0].length){
                 adj.add(right);
             }
-            for(Pair<Integer, Integer> coord : adj){
-                if(coord.getKey() >= 0 && coord.getValue() >= 0 && maze[coord.getKey()][coord.getValue()] != 1 && !visited.containsValue(coord)){
-                    if(coord.equals(destination)){
+            for(Node node : adj){
+                if(node.getCoord().getKey() >= 0 && node.getCoord().getValue() >= 0 && maze[node.getCoord().getKey()][node.getCoord().getValue()] != 1 && !node.getVisited()){
+                    node.visit();
+                    if(node.getCoord().equals(destination)){
                         System.out.print("Found destination: [" + destination.getKey() + "," + destination.getValue() + "]");
-                        mazeSolved[coord.getKey()][coord.getValue()] = 3;
+                        mazeSolved[node.getCoord().getKey()][node.getCoord().getValue()] = 3;
                         return mazeSolved;
                     }else{
-                        mazeSolved[coord.getKey()][coord.getValue()] = 2;
-                        stack.addFirst(coord);
+                        mazeSolved[node.getCoord().getKey()][node.getCoord().getValue()] = 2;
+                        stack.addFirst(node);
                     }
                 }
             }
@@ -189,10 +202,13 @@ public class SolvingAlgorithms {
 
         private Node prev;
 
+        private boolean visited;
+
         private Node(Pair<Integer, Integer> coord, int dist, Node prev){
             this.coord = coord;
             this.dist = dist;
             this.prev = prev;
+            visited = false;
         }
 
         private Pair<Integer, Integer> getCoord(){
@@ -207,12 +223,20 @@ public class SolvingAlgorithms {
             return prev;
         }
 
+        private boolean getVisited(){
+            return visited;
+        }
+
         private void setDist(int dist){
             this.dist = dist;
         }
 
         private void setPrev(Node prev){
             this.prev = prev;
+        }
+
+        private void visit(){
+            visited = true;
         }
 
     }
