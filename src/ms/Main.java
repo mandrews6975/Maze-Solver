@@ -67,14 +67,10 @@ public class Main {
                 mazeSolved = SolvingAlgorithms.dijkstra(maze, origin, destination);
                 createSolvedImage(mazeSolved, args[0].substring(0, args[0].lastIndexOf('.')) + "_solved.bmp");
                 break;
-            /*case "Greedy":
-                mazeSolved = greedy(maze, origin, destination);
+            case "A*":
+                mazeSolved = SolvingAlgorithms.aStar(maze, origin, destination);
                 createSolvedImage(mazeSolved, args[0].substring(0, args[0].lastIndexOf('.')) + "_solved.bmp");
                 break;
-            case "A*":
-                mazeSolved = aStar(maze, origin, destination);
-                createSolvedImage(mazeSolved, args[0].substring(0, args[0].lastIndexOf('.')) + "_solved.bmp");
-                break;*/
             default:
                 throw new IllegalArgumentException("ERROR: Invalid solving algorithm: " + args[1] + ".");
         }
