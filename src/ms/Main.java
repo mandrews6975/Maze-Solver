@@ -95,7 +95,7 @@ public class Main {
         }
         File solvedImageFile = new File(filename);
         ImageIO.write(imgSolved, "bmp", solvedImageFile);
-        //Runtime.getRuntime().exec("python viewImage.py " + filename);
+        Runtime.getRuntime().exec("python viewImage.py " + filename);
     }
 
 }
