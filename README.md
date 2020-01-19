@@ -1,5 +1,5 @@
 # Maze-Solver
-A maze solver capable of processing black and white maze images and finding paths from one point to another through various path-finding algorithms.
+A maze solver capable of processing black and white maze images and finding paths through various path-finding algorithms.
 
 ![](https://raw.githubusercontent.com/mandrews6975/Maze-Solver/master/02.bmp)
 
